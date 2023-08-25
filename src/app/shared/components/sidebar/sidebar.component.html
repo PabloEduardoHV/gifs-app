@@ -1,0 +1,11 @@
+<div id="sidebar">
+  <h3>Gifs App</h3>
+  <hr>
+  <div class="list-group list-reset list-group-item-action">
+    <button
+    class="list-group-item "
+    *ngFor="let tag of tags">
+      {{ tag | titlecase }}
+    </button>
+  </div>
+</div>
