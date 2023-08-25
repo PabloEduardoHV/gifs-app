@@ -17,7 +17,7 @@ export class GifsService {
 
   /* Metodos */
   constructor(private http:HttpClient) {
-
+    this.loadLocalStorage();
   }
 
   get tagsHistory(): string[] {
@@ -36,6 +36,17 @@ export class GifsService {
     this._tagsHistory.unshift(newTag);
     //Solo permitir 10 elementos en el historial
     if(this._tagsHistory.length > 10) this._tagsHistory.pop();
+    this.saveLocalStorage();
+  }
+
+  private saveLocalStorage(): void {
+    localStorage.setItem('history', JSON.stringify( this._tagsHistory ));
+  }
+
+  private loadLocalStorage(): void {
+    if(!localStorage.getItem( 'history' )) return;
+    this._tagsHistory = JSON.parse(localStorage.getItem('history')!);
+    this.searchTag(this._tagsHistory[0]);
   }
 
   public searchTag(newTag: string): void {
@@ -52,9 +63,7 @@ export class GifsService {
     .subscribe(
       resp => {
         this.gifsList = resp.data;
-        console.log(this.gifsList[0].title);
       }
     );
   }
-
 }
